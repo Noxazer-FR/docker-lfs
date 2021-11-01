@@ -1,15 +1,15 @@
 version: '2'
 
 services:
-	lfs:
-		restart: unless-stopped
-		privileged: true
-		image: noxazer-fr/docker-lfs
-		volumes:
-			- ./book:/lfs/book
-			- ./image:/lfs/image
-			- ./sources:/lfs/sources
-			- ./tools:/lfs/tools
-			- ./lfs:/lfs
-			- ./dist:/dist
-		entrypoint: ["sleep", "inf"]
+  lfs:
+    restart: unless-stopped
+    privileged: true
+    image: noxazer/docker-lfs
+    volumes:
+      - ./book:/lfs/book
+      - ./image:/lfs/image
+      - ./sources:/lfs/sources
+      - ./tools:/lfs/tools
+      - ./lfs:/lfs
+      - ./dist:/dist
+    entrypoint: ["sleep", "inf"]

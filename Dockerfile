@@ -56,6 +56,8 @@ RUN apt-get update && apt-get install -y \
 		wget																 \
 		sudo																 \
 		genisoimage													 \
+		python3															 \
+		busybox															 \
  && apt-get -q -y autoremove						 \
  && rm -rf /var/lib/apt/lists/*
 
@@ -84,14 +86,13 @@ RUN mkdir -pv $LFS/tools	\
  && ln -sv		$LFS/tools /
 
 # check environment
-RUN $LFS/book/version-check.sh \
- && $LFS/book/library-check.sh
+RUN $LFS/book/version-check.sh
 
 # create lfs user with 'lfs' password
-RUN groupadd lfs																		\
- && useradd -s /bin/bash -g lfs -m -k /dev/null lfs \
- && echo "lfs:lfs" | chpasswd
-RUN adduser lfs sudo
+RUN /usr/sbin/groupadd lfs													\
+ && /usr/sbin/useradd -s /bin/bash -g lfs -m -k /dev/null lfs \
+ && echo "lfs:lfs" | /usr/sbin/chpasswd
+RUN /usr/sbin/adduser lfs sudo
 
 # give lfs user ownership of directories
 RUN chown -v lfs $LFS/tools		\
@@ -104,7 +105,7 @@ RUN echo 'Defaults env_keep += "LFS LC_ALL LFS_TGT PATH MAKEFLAGS FETCH_TOOLCHAI
 
 # login as lfs user
 USER lfs
-COPY [".bash_profile", ".bashrc", "/home/lfs"]
+COPY [".bash_profile", ".bashrc", "/home/lfs/"]
 RUN source ~/.bash_profile
 
 # change path to home folder as default
